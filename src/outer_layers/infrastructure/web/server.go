@@ -1,11 +1,15 @@
 package web
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 )
 
 func InitializeHTTPServer() {
-	log.Println("Server running on localhost:8080")
-	log.Fatal(http.ListenAndServe("localhost:8080", nil))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello from Mashi")
+	})
+	log.Println("Server running on 0.0.0.0:8080")
+	log.Fatal(http.ListenAndServe("0.0.0.0:8080", nil))
 }
