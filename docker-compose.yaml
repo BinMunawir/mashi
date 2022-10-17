@@ -9,5 +9,5 @@ services:
     volumes:
     - .:/mashi
     # command: ./mashi
-    command: air
+    command: make run-dev
 
