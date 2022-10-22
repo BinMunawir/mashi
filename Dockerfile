@@ -8,4 +8,4 @@ COPY ./go.mod .
 # RUN go install github.com/cosmtrek/air@latest
 COPY . .
 
-RUN go build
+# RUN go build
