@@ -5,8 +5,7 @@ services:
     image: mashi
     build:
       context: .
-      dockerfile: Dockerfile.prod
-    env_file: [ .env ]
+      dockerfile: Dockerfile
     ports:
     - 80:${PORT}
     command: ./mashi

@@ -2,7 +2,6 @@
 
 *.env
 !example.env
-docker-compose.yaml
 
 mashi
 tmp/
