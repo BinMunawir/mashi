@@ -8,6 +8,5 @@ services:
       dockerfile: Dockerfile
     ports:
     - 80:8080
-    # command: ./mashi
     command: go run .
 
