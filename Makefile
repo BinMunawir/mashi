@@ -13,6 +13,8 @@ dev: ## run server in dev environment
 	cp docker-compose.dev.yaml docker-compose.yaml
 	docker-compose build --force-rm
 	docker-compose up
+prod: ## run server in prod environment
+	cp docker-compose.prod.yaml docker-compose.yaml
 
 
 
