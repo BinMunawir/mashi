@@ -7,3 +7,5 @@ RUN go mod download
 
 RUN go install github.com/cosmtrek/air@latest
 COPY . .
+EXPOSE 18080
+CMD go run .
