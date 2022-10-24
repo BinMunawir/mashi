@@ -3,10 +3,8 @@ version: '3.8'
 services:
   backend:
     image: mashi
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     ports:
-    - 80:8080
+    - 80:${PORT}
     command: go run .
 
