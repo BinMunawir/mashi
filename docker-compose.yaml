@@ -4,7 +4,6 @@ services:
   backend:
     image: mashi
     build: .
-    env_file: []
     ports:
     - 80:${PORT}
     command: go run .
