@@ -1,4 +1,4 @@
-package html_template_render
+package adaptors
 
 import (
 	"bytes"

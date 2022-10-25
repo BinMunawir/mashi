@@ -5,13 +5,13 @@ import (
 	"net/http"
 
 	"github.com/BinMunawir/mashi/src/inner_layers/usecases/general"
-	html_template_render "github.com/BinMunawir/mashi/src/outer_layers/adaptors"
+	"github.com/BinMunawir/mashi/src/outer_layers/adaptors"
 )
 
 func RegisterRoutes() {
 	http.HandleFunc("/api/welcome_report", func(w http.ResponseWriter, r *http.Request) {
 		data := general.GenerateWelcomReport()
-		html := html_template_render.HTMLRender(data)
+		html := adaptors.HTMLRender(data)
 		w.Write(html)
 	})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
