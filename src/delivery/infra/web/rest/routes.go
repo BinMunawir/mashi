@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	usecases "github.com/BinMunawir/mashi/src/core/usecases/general"
+	usecases "github.com/BinMunawir/mashi/src/core/usecases/skeleton"
 	"github.com/BinMunawir/mashi/src/delivery/adaptors"
 )
 
