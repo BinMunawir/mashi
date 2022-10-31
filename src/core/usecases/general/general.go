@@ -1,7 +1,7 @@
 package usecases
 
-func GenerateWelcomReport() map[string]string {
+func SkeletonReport() map[string]string {
 	return map[string]string{
-		"content": "Welcome report",
+		"content": "Skeleton report",
 	}
 }

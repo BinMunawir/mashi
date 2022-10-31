@@ -9,8 +9,8 @@ import (
 )
 
 func RegisterRoutes() {
-	http.HandleFunc("/api/welcome_report", func(w http.ResponseWriter, r *http.Request) {
-		data := usecases.GenerateWelcomReport()
+	http.HandleFunc("/api/skeleton_report", func(w http.ResponseWriter, r *http.Request) {
+		data := usecases.SkeletonReport()
 		html := adaptors.HTMLRender(data)
 		w.Write(html)
 	})
