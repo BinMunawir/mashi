@@ -4,10 +4,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/BinMunawir/mashi/src/delivery/infrastructure/web/rest"
 )
 
 func InitializeHTTPServer() {
-	RegisterRoutes()
+	rest.RegisterRoutes()
 	HOST := os.Getenv("HOST")
 	PORT := os.Getenv("PORT")
 	log.Println("Server running on " + HOST + ":" + PORT)

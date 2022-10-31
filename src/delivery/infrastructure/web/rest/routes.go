@@ -1,16 +1,16 @@
-package web
+package rest
 
 import (
 	"fmt"
 	"net/http"
 
-	"github.com/BinMunawir/mashi/src/inner_layers/usecases/general"
-	"github.com/BinMunawir/mashi/src/outer_layers/adaptors"
+	usecases "github.com/BinMunawir/mashi/src/core/usecases/general"
+	"github.com/BinMunawir/mashi/src/delivery/adaptors"
 )
 
 func RegisterRoutes() {
 	http.HandleFunc("/api/welcome_report", func(w http.ResponseWriter, r *http.Request) {
-		data := general.GenerateWelcomReport()
+		data := usecases.GenerateWelcomReport()
 		html := adaptors.HTMLRender(data)
 		w.Write(html)
 	})
