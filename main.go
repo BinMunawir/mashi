@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/BinMunawir/mashi/src/delivery/infrastructure/web"
+	"github.com/BinMunawir/mashi/src/delivery/infra/web"
 )
 
 func main() {

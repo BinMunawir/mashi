@@ -7,7 +7,7 @@ import (
 )
 
 func HTMLRender(data map[string]string) []byte {
-	tmpl, err := template.ParseFiles("templates/welcome_report.html")
+	tmpl, err := template.ParseFiles("src/delivery/infra/templates/welcome_report.html")
 	if err != nil {
 		log.Fatal(err)
 	}

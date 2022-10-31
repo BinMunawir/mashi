@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/BinMunawir/mashi/src/delivery/infrastructure/web/rest"
+	"github.com/BinMunawir/mashi/src/delivery/infra/web/rest"
 )
 
 func InitializeHTTPServer() {
