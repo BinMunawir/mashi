@@ -1,23 +1,26 @@
 package rest
 
 import (
-	"fmt"
 	"net/http"
 
-	usecases "github.com/BinMunawir/mashi/src/core/usecases"
+	"github.com/BinMunawir/mashi/src/core/usecases"
+	"github.com/go-chi/chi/v5"
 )
 
-func RegisterRoutes() {
-	http.HandleFunc("/api/skeleton_report.html", func(w http.ResponseWriter, r *http.Request) {
+func RegisterRoutes() *chi.Mux {
+	router := chi.NewRouter()
+	router.Get("/api/skeleton_report.html", func(w http.ResponseWriter, r *http.Request) {
 		w.Write(usecases.SkeletonReportHtml())
 	})
-	http.HandleFunc("/api/skeleton_report.json", func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/api/skeleton_report.json", func(w http.ResponseWriter, r *http.Request) {
 		w.Write(usecases.SkeletonReportJson())
 	})
-	http.HandleFunc("/api/skeleton_report", func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/api/skeleton_report", func(w http.ResponseWriter, r *http.Request) {
 		w.Write(usecases.SkeletonReportJson())
 	})
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello from Mashi")
+	router.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("Hello from Mashi"))
 	})
+
+	return router
 }

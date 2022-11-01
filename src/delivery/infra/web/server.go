@@ -12,12 +12,12 @@ import (
 
 func InitializeHTTPServer() {
 	initializerUsecases()
-	rest.RegisterRoutes()
+	router := rest.RegisterRoutes()
 
 	HOST := os.Getenv("HOST")
 	PORT := os.Getenv("PORT")
 	log.Println("Server running on " + HOST + ":" + PORT)
-	log.Fatal(http.ListenAndServe(HOST+":"+PORT, nil))
+	log.Fatal(http.ListenAndServe(HOST+":"+PORT, router))
 }
 
 func initializerUsecases() {
