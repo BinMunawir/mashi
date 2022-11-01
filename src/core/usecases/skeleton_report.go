@@ -1,14 +1,22 @@
 package usecases
 
+import "encoding/json"
+
 const tmplPath string = "src/delivery/infra/templates/skeleton_report.html"
 
-func SkeletonReportData() map[string]string {
+func skeletonReportContent() map[string]string {
 	return map[string]string{
 		"content": "Skeleton report",
 	}
 }
 
 func SkeletonReportHtml() []byte {
-	data := SkeletonReportData()
+	data := skeletonReportContent()
 	return htmlRenderer.RenderHtml(tmplPath, data)
+}
+
+func SkeletonReportJson() []byte {
+	data := skeletonReportContent()
+	json, _ := json.Marshal(data)
+	return json
 }
