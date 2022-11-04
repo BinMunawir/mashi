@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/BinMunawir/mashi/src/core/usecases"
-	"github.com/BinMunawir/mashi/src/delivery/adaptors"
 	"github.com/BinMunawir/mashi/src/delivery/infra/web/rest"
 )
 
@@ -21,6 +20,5 @@ func InitializeHTTPServer() {
 }
 
 func initializerUsecases() {
-	htmlRenderer := adaptors.NewGolangHtmlRenderer()
-	usecases.Init(htmlRenderer)
+	usecases.Init()
 }
