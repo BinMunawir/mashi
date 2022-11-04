@@ -17,3 +17,6 @@ prod: ## run server in prod environment
 
 
 
+compose_dev_test_and_run: ## commands for compose
+	go test -v ./...
+	air
