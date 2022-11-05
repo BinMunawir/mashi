@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/BinMunawir/mashi/src/core/usecases"
 	"github.com/BinMunawir/mashi/src/delivery/infra/web/rest"
 )
 
@@ -20,5 +19,5 @@ func InitializeHTTPServer() {
 }
 
 func initializerUsecases() {
-	usecases.Init()
+	// usecases.Init()
 }
