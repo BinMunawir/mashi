@@ -7,13 +7,25 @@ import (
 
 func TestSkeletonReport(t *testing.T) {
 	var tests = []struct {
-		want map[string]string
+		out map[string]string
 	}{
 		{map[string]string{"content": "Skeleton report"}},
 	}
-	for _, test := range tests {
-		if got := SkeletonReport(); !reflect.DeepEqual(got, test.want) {
-			t.Errorf("SkeletonReport() = %v", got)
-		}
+	for _, tc := range tests {
+		t.Run("SkeletonReport()", func(t *testing.T) {
+			out, err := SkeletonReport()
+			if err != nil {
+				t.Fatalf("Error: %v", err)
+			}
+			if !reflect.DeepEqual(out, tc.out) {
+				t.Errorf("SkeletonReport() = %v", out)
+			}
+		})
 	}
+	// for _, tc := range tests {
+	// 	got, err := SkeletonReport()
+	// 	if err != nil || !reflect.DeepEqual(got, tc.want) {
+	// 		t.Errorf("SkeletonReport() = %v \terror: %v", got, err)
+	// 	}
+	// }
 }

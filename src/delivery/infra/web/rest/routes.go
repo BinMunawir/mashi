@@ -11,7 +11,7 @@ import (
 func RegisterRoutes() *chi.Mux {
 	router := chi.NewRouter()
 	router.Get("/api/reports/skeleton", func(w http.ResponseWriter, r *http.Request) {
-		content := usecases.SkeletonReport()
+		content, _ := usecases.SkeletonReport()
 		json, _ := json.Marshal(content)
 		w.Write(json)
 	})
