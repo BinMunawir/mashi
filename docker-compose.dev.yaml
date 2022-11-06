@@ -5,11 +5,25 @@ services:
     image: mashi
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: ./Dockerfile.dev
     env_file: [ dev.env ]
     ports:
     - 18080:${PORT}
     volumes:
     - .:/mashi
     command: make compose_dev_test
+  db:
+    image: postgres:15.0-bullseye
+    restart: always
+    environment:
+      - POSTGRES_USER=mashi
+      - POSTGRES_PASSWORD=123456789
+      - POSTGRES_HOST=0.0.0.0
+    ports: [5432:5432]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
 
+
+volumes:
+  pgdata:
+    driver: local

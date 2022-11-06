@@ -19,7 +19,7 @@ func TestSkeletonReport(t *testing.T) {
 		{
 			name: "default",
 			in:   input{},
-			out:  output{map[string]string{"content": "Skeletoln report"}, nil},
+			out:  output{map[string]string{"content": "Skeleton report"}, nil},
 		},
 	}
 	for _, tc := range tests {

@@ -5,4 +5,5 @@
 
 mashi
 tmp/
+db/
 go.sum
