@@ -7,21 +7,27 @@ services:
       context: .
       dockerfile: ./Dockerfile.dev
     env_file: [ dev.env ]
-    ports:
-    - 18080:${PORT}
+    ports: [ "18080:${PORT}" ]
+    depends_on:
+      - db
     volumes:
     - .:/mashi
-    command: make compose_dev_test
+    command: make compose_dev_test_and_run
   db:
     image: postgres:15.0-bullseye
     restart: always
     environment:
       - POSTGRES_USER=mashi
       - POSTGRES_PASSWORD=123456789
-      - POSTGRES_HOST=0.0.0.0
     ports: [5432:5432]
     volumes:
       - pgdata:/var/lib/postgresql/data
+  adminer:
+    image: adminer
+    ports: [18081:8080]
+    restart: always
+
+
 
 
 volumes:

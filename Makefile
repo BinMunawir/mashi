@@ -15,9 +15,18 @@ dev: ## run server in dev environment
 prod: ## run server in prod environment
 
 
-
-compose_dev_test: ## commands for compose
+.PHONY: compose_dev_test
+compose_dev_test: compose_dev ## commands for compose
 	go test -v ./...
-compose_dev_test_and_run: ## commands for compose
-	compose_dev_test
+
+.PHONY:compose_dev_test_and_run
+compose_dev_test_and_run: compose_dev_test ## commands for compose
 	air
+
+.PHONY: compose_dev
+compose_dev:
+	migrate -source file:///mashi/src/delivery/infra/db/postgres/migrations/ -database postgres://mashi:123456789@db/mashi?sslmode=disable up
+
+.PHONY: migrate
+migrate:
+	migrate create -ext sql -dir ./src/delivery/infra/db/postgres/migrations/ $(name)

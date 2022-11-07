@@ -3,5 +3,3 @@
 tmp/
 .git
 *.md
-db/
-./db/
