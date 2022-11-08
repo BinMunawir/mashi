@@ -49,3 +49,31 @@ func TestNewPostgresStore(t *testing.T) {
 		})
 	}
 }
+
+func TestSaveInvoice(t *testing.T) {
+	// assert := assert.New(t)
+	type input struct{ data map[string]interface{} }
+	type output struct{}
+	var tests = []struct {
+		name        string
+		in          input
+		out         output
+		extraAssert func()
+	}{
+		{
+			"empty",
+			input{map[string]interface{}{}},
+			output{},
+			func() {
+			},
+		},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			// postgresStore, err := postgres.NewPostgresStore(configs.DNS)
+
+			tc.extraAssert()
+
+		})
+	}
+}

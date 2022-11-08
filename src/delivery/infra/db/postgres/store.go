@@ -29,3 +29,7 @@ func NewPostgresStore(dsn string) (PostgresStore, error) {
 
 	return PostgresStore{pool}, nil
 }
+
+func (s PostgresStore) SaveInvoice(data map[string]interface{}) {
+
+}
