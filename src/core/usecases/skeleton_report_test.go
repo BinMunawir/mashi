@@ -6,11 +6,11 @@ import (
 )
 
 func TestSkeletonReport(t *testing.T) {
+	type input struct{}
 	type output struct {
 		res map[string]string
 		err error
 	}
-	type input struct{}
 	var tests = []struct {
 		name string
 		in   input
@@ -24,13 +24,12 @@ func TestSkeletonReport(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			out := output{}
-			out.res, out.err = SkeletonReport()
-			if out.err != nil {
-				t.Fatalf("Error: %v", out.err)
+			got, err := SkeletonReport()
+			if err != nil {
+				t.Fatalf("Error: %v", err)
 			}
-			if !reflect.DeepEqual(out.res, tc.out.res) {
-				t.Errorf("%v != %v", out.res, tc.out.res)
+			if !reflect.DeepEqual(got, tc.out.res) {
+				t.Errorf("%v != %v", got, tc.out.res)
 			}
 		})
 	}
