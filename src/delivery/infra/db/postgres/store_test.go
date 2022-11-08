@@ -4,6 +4,8 @@ import (
 	"errors"
 	"strings"
 	"testing"
+
+	"github.com/BinMunawir/mashi/src/delivery/infra/configs"
 )
 
 func TestNewPostgresStore(t *testing.T) {
@@ -19,12 +21,12 @@ func TestNewPostgresStore(t *testing.T) {
 	}{
 		{
 			name: "success",
-			in:   input{"postgres://mashi:123456789@0.0.0.0/mashi?sslmode=disable"},
+			in:   input{configs.DNS},
 			out:  output{PostgresStore{}, nil},
 		},
 		{
 			name: "fail",
-			in:   input{"postgres://mashi:12345789@0.0.0.0/mashi?sslmode=disable"},
+			in:   input{"postgres://mashi:blablabla@0.0.0.0/mashi?sslmode=disable"},
 			out:  output{PostgresStore{}, errors.New("unable to create connection")},
 		},
 	}

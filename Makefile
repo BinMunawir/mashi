@@ -23,6 +23,7 @@ test:
 
 
 # DOCKER-COMPOSE
+compose_run: compose_dev_test
 compose_dev_test: migrate-run test
 compose_dev_test_and_run: compose_dev_test
 	air

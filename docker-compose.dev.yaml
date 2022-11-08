@@ -8,12 +8,12 @@ services:
       dockerfile: ./Dockerfile.dev
     env_file: [ dev.env ]
     ports: [ "18080:${PORT}" ]
-    restart: on-failure
+    # restart: on-failure
     depends_on:
       - db
     volumes:
     - .:/mashi
-    command: make compose_dev_test_and_run
+    command: make compose_run
   db:
     image: postgres:15.0-bullseye
     restart: always
