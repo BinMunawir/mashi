@@ -6,14 +6,6 @@ import (
 	"testing"
 )
 
-type PostgresStore struct{}
-
-func NewPostgresStore(dsn string) (PostgresStore, error) {
-	if !strings.Contains(dsn, "6") {
-		return PostgresStore{}, errors.New("Unable to create connection")
-	}
-	return PostgresStore{}, nil
-}
 func TestNewPostgresStore(t *testing.T) {
 	type input struct{ dsn string }
 	type output struct {
@@ -27,13 +19,13 @@ func TestNewPostgresStore(t *testing.T) {
 	}{
 		{
 			name: "success",
-			in:   input{"postgres://mashi:123456789@db/mashi?sslmode=disable"},
+			in:   input{"postgres://mashi:123456789@0.0.0.0/mashi?sslmode=disable"},
 			out:  output{PostgresStore{}, nil},
 		},
 		{
 			name: "fail",
-			in:   input{"postgres://mashi:12345789@db/mashi?sslmode=disable"},
-			out:  output{PostgresStore{}, errors.New("Unable to create connection")},
+			in:   input{"postgres://mashi:12345789@0.0.0.0/mashi?sslmode=disable"},
+			out:  output{PostgresStore{}, errors.New("unable to create connection")},
 		},
 	}
 	for _, tc := range tests {
