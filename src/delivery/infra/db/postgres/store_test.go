@@ -1,49 +1,51 @@
-package postgres
+package postgres_test
 
 import (
 	"errors"
-	"strings"
 	"testing"
 
 	"github.com/BinMunawir/mashi/src/delivery/infra/configs"
+	"github.com/BinMunawir/mashi/src/delivery/infra/db/postgres"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewPostgresStore(t *testing.T) {
+	assert := assert.New(t)
 	type input struct{ dsn string }
 	type output struct {
-		res PostgresStore
+		res postgres.PostgresStore
 		err error
 	}
 	var tests = []struct {
-		name string
-		in   input
-		out  output
+		name        string
+		in          input
+		out         output
+		extraAssert func(error)
 	}{
 		{
 			"SuccessConnection",
 			input{configs.DNS},
-			output{PostgresStore{}, nil},
+			output{postgres.PostgresStore{}, nil},
+			func(err error) {
+				assert.Nil(err)
+			},
 		},
 		{
 			"FailedConnection",
 			input{"postgres://mashi:blablabla@0.0.0.0/mashi?sslmode=disable"},
-			output{PostgresStore{}, errors.New("unable to create connection")},
+			output{postgres.PostgresStore{}, errors.New("unable to create connection")},
+			func(err error) {
+				assert.NotNil(err)
+				assert.ErrorContains(err, "unable to create connection")
+			},
 		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			_, err := NewPostgresStore(tc.in.dsn)
-			if tc.out.err != nil && err == nil {
-				t.Errorf("expect error: %v got nil error", tc.out.err)
-			}
-			if tc.out.err != nil && err != nil {
-				if !strings.Contains(err.Error(), tc.out.err.Error()) {
-					t.Errorf("expect error message to contains %v but got %v", tc.out.err.Error(), err.Error())
-				}
-			}
-			if tc.out.err == nil && err != nil {
-				t.Fatalf("Error: %v", err)
-			}
+			_, err := postgres.NewPostgresStore(tc.in.dsn)
+
+			tc.extraAssert(err)
+
 		})
 	}
 }
