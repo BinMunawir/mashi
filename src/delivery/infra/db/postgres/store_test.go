@@ -20,14 +20,14 @@ func TestNewPostgresStore(t *testing.T) {
 		out  output
 	}{
 		{
-			name: "success",
-			in:   input{configs.DNS},
-			out:  output{PostgresStore{}, nil},
+			"SuccessConnection",
+			input{configs.DNS},
+			output{PostgresStore{}, nil},
 		},
 		{
-			name: "fail",
-			in:   input{"postgres://mashi:blablabla@0.0.0.0/mashi?sslmode=disable"},
-			out:  output{PostgresStore{}, errors.New("unable to create connection")},
+			"FailedConnection",
+			input{"postgres://mashi:blablabla@0.0.0.0/mashi?sslmode=disable"},
+			output{PostgresStore{}, errors.New("unable to create connection")},
 		},
 	}
 	for _, tc := range tests {
