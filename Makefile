@@ -1,4 +1,4 @@
-.PHONY: help, dev, prod, migrate, test, migrate-run
+.PHONY: help, dev, prod, test, migrate, migrate-up, migrate-down
 
 # msg := $(shell echo $${HOME})
 
@@ -12,16 +12,18 @@ dev: ## run server in dev environment
 	docker-compose -f docker-compose.dev.yaml --env-file dev.env up \
 	&& docker-compose -f docker-compose.dev.yaml --env-file dev.env down
 prod: ## run server in prod environment
-	echo "ddd"
+	echo "prod"
 
 migrate: ## create sql migration files
 	migrate create -ext sql -dir ./src/delivery/infra/db/postgres/migrations/ $(name)
-migrate-run:
-	migrate -source file:///mashi/src/delivery/infra/db/postgres/migrations/ -database postgres://mashi:123456789@db/mashi?sslmode=disable up
+migrate-up:
+	docker exec mashi_backend_1 migrate -source file:///mashi/src/delivery/infra/db/postgres/migrations/ -database postgres://mashi:123456789@db/mashi?sslmode=disable up
+migrate-down:
+	docker exec mashi_backend_1 migrate -source file:///mashi/src/delivery/infra/db/postgres/migrations/ -database postgres://mashi:123456789@db/mashi?sslmode=disable down 1
 test:
 	docker exec mashi_backend_1 go test -v ./...
 
 
 # DOCKER-COMPOSE
-compose_run: migrate-run
+compose_run: migrate-up
 	air
