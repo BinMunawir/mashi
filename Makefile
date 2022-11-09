@@ -19,11 +19,9 @@ migrate: ## create sql migration files
 migrate-run:
 	migrate -source file:///mashi/src/delivery/infra/db/postgres/migrations/ -database postgres://mashi:123456789@db/mashi?sslmode=disable up
 test:
-	go test -v ./...
+	docker exec mashi_backend_1 go test -v ./...
 
 
 # DOCKER-COMPOSE
-compose_run: compose_dev_test_and_run
-compose_dev_test: migrate-run test
-compose_dev_test_and_run: compose_dev_test
+compose_run: migrate-run
 	air
