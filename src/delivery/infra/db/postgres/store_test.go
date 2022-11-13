@@ -1,11 +1,13 @@
 package postgres_test
 
 import (
+	"context"
 	"errors"
 	"testing"
 
 	"github.com/BinMunawir/mashi/src/delivery/infra/configs"
 	"github.com/BinMunawir/mashi/src/delivery/infra/db/postgres"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -51,7 +53,7 @@ func TestNewPostgresStore(t *testing.T) {
 }
 
 func TestSaveInvoice(t *testing.T) {
-	// assert := assert.New(t)
+	assert := assert.New(t)
 	type input struct{ data map[string]interface{} }
 	type output struct{}
 	var tests = []struct {
@@ -79,7 +81,18 @@ func TestSaveInvoice(t *testing.T) {
 
 			tc.extraAssert()
 
-			
+			pool, _ := pgxpool.New(context.Background(), configs.DNS)
+			var id string
+			var title string
+			err := pool.QueryRow(context.Background(), "select id, title from invoices;").Scan(&id, &title)
+			assert.Nil(err)
+
+			res := map[string]interface{}{
+				"id":    id,
+				"title": title,
+			}
+			assert.Equal(res, tc.in.data)
+
 		})
 	}
 }

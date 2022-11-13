@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
@@ -20,7 +21,6 @@ func NewPostgresStore(dsn string) (PostgresStore, error) {
 	}
 	// defer pool.Close()
 
-	pool.Reset()
 	err = pool.Ping(context.Background())
 	if err != nil {
 		log.Println(err)
@@ -31,5 +31,12 @@ func NewPostgresStore(dsn string) (PostgresStore, error) {
 }
 
 func (s PostgresStore) SaveInvoice(data map[string]interface{}) {
-
+	id := data["id"].(string)
+	title := data["title"].(string)
+	query := "INSERT INTO invoices(id, title) values('" + id + "','" + title + "');"
+	_, err := s.pool.Query(context.Background(), query)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
+		os.Exit(1)
+	}
 }
