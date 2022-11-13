@@ -62,7 +62,10 @@ func TestSaveInvoice(t *testing.T) {
 	}{
 		{
 			"empty",
-			input{map[string]interface{}{}},
+			input{map[string]interface{}{
+				"id":    "dkj-54123",
+				"title": "dummy test invoice",
+			}},
 			output{},
 			func() {
 			},
@@ -70,10 +73,13 @@ func TestSaveInvoice(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			// postgresStore, err := postgres.NewPostgresStore(configs.DNS)
+			postgresStore, _ := postgres.NewPostgresStore(configs.DNS)
+			invoiceStore := postgresStore
+			invoiceStore.SaveInvoice(tc.in.data)
 
 			tc.extraAssert()
 
+			
 		})
 	}
 }

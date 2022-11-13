@@ -25,5 +25,5 @@ test:
 
 
 # DOCKER-COMPOSE
-compose_run: migrate-up
+compose_run:
 	air
