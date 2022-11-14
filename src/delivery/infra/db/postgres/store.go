@@ -40,3 +40,15 @@ func (s PostgresStore) SaveInvoice(data map[string]interface{}) {
 		os.Exit(1)
 	}
 }
+
+func (s PostgresStore) RetrieveInvoice(id string) (invoice map[string]interface{}, err error) {
+	var _id string
+	var title string
+	err = s.pool.QueryRow(context.Background(), "select id, title from invoices;").Scan(&_id, &title)
+
+	invoice = map[string]interface{}{
+		"id":    _id,
+		"title": title,
+	}
+	return invoice, err
+}

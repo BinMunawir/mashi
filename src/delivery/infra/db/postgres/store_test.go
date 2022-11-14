@@ -5,6 +5,7 @@ import (
 	"errors"
 	"testing"
 
+	"github.com/BinMunawir/mashi/src/core/repositories"
 	"github.com/BinMunawir/mashi/src/delivery/infra/configs"
 	"github.com/BinMunawir/mashi/src/delivery/infra/db/postgres"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -92,6 +93,49 @@ func TestSaveInvoice(t *testing.T) {
 				"title": title,
 			}
 			assert.Equal(res, tc.in.data)
+
+		})
+	}
+}
+
+func TestRetrieveInvoice(t *testing.T) {
+	assert := assert.New(t)
+	type input struct{ id string }
+	type output struct {
+		invoice map[string]interface{}
+		err     error
+	}
+	var tests = []struct {
+		name        string
+		in          input
+		out         output
+		extraAssert func()
+	}{
+		{
+			"empty",
+			input{"dkj-54123"},
+			output{
+				map[string]interface{}{
+					"id":    "dkj-54123",
+					"title": "dummy test invoice",
+				},
+				nil,
+			},
+			func() {
+			},
+		},
+	}
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			postgresStore, _ := postgres.NewPostgresStore(configs.DNS)
+			var invoiceStore repositories.InvoiceRepository = postgresStore
+			invoiceStore.SaveInvoice(tc.out.invoice)
+			invoice, err := invoiceStore.RetrieveInvoice(tc.in.id)
+
+			tc.extraAssert()
+
+			assert.Nil(err)
+			assert.Equal(invoice, tc.out.invoice)
 
 		})
 	}
