@@ -34,6 +34,9 @@ services:
   zookeeper:
     image: confluentinc/cp-zookeeper
     ports: [2181:2181]
+    volumes:
+      - zookeeperdata:/var/lib/zookeeper/data
+      - zookeeperlog:/var/lib/zookeeper/log
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
 
@@ -41,7 +44,9 @@ services:
     image: confluentinc/cp-kafka
     depends_on: [zookeeper]
     ports:
-      - 29092:29092
+      - 29092:9092
+    volumes:
+      - kafkadata:/var/lib/kafka/data
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://:29092
@@ -62,4 +67,10 @@ services:
 
 volumes:
   pgdata:
+    driver: local
+  kafkadata:
+    driver: local
+  zookeeperdata:
+    driver: local
+  zookeeperlog:
     driver: local
