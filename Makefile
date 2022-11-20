@@ -27,3 +27,5 @@ test:
 # DOCKER-COMPOSE
 compose_run:
 	air
+in:
+	docker exec -it mashi_backend_1 bash
