@@ -33,3 +33,6 @@ type invoiceRepositoryStub struct{}
 func (r invoiceRepositoryStub) SaveInvoice(invoiceDTO map[string]interface{}) {
 	fmt.Println("SaveInvoice triggered with\n", invoiceDTO)
 }
+func (r invoiceRepositoryStub) RetrieveInvoice(id string) (invoice map[string]interface{}, err error) {
+	return nil, nil
+}
