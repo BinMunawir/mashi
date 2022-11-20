@@ -11,4 +11,5 @@ var (
 	DB_PASSWORRD = os.Getenv("DB_PASSWORRD")
 	DB_NAME      = os.Getenv("DB_NAME")
 	DNS          = "postgres://" + DB_USER + ":" + DB_PASSWORRD + "@" + DB_HOST + "/" + DB_NAME + "?sslmode=disable"
+	KAFKA_HOST   = os.Getenv("KAFKA_HOST")
 )
