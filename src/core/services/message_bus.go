@@ -2,6 +2,7 @@ package services
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -22,26 +23,23 @@ func NewKafka() MessageBus {
 
 func (k Kafka) Consume(topic string) ([]byte, error) {
 	r := kafka.NewReader(kafka.ReaderConfig{
-		Brokers:   []string{configs.KAFKA_HOST},
-		Topic:     topic,
-		Partition: 0,
-		// GroupID:        "main",
+		Brokers:        []string{configs.KAFKA_HOST},
+		Topic:          topic,
+		Partition:      0,
+		GroupID:        "main",
 		MinBytes:       10e3, // 10KB
 		MaxBytes:       1e6,  // 1MB
-		SessionTimeout: time.Second * 5,
+		SessionTimeout: time.Second * 10,
 	})
 
 	m, err := r.ReadMessage(context.Background())
 	if err != nil {
 		log.Println(err)
-	}
-	// fmt.Printf("message at offset %d: %s = %s\n", m.Offset, string(m.Key), string(m.Value))
-
-	r.Close()
-
-	if err != nil {
 		return nil, nil
 	}
+	fmt.Printf("message at offset %d: %s = %s\n", m.Offset, string(m.Key), string(m.Value))
+
+	r.Close()
 	return m.Value, nil
 }
 
