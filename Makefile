@@ -21,7 +21,7 @@ migrate-up:
 migrate-down:
 	docker exec mashi_backend_1 migrate -source file:///mashi/src/delivery/infra/db/postgres/migrations/ -database postgres://mashi:123456789@db/mashi?sslmode=disable down 1
 test:
-	docker exec mashi_backend_1 go test ./...
+	docker exec mashi_backend_1 go test -v ./...
 
 
 # DOCKER-COMPOSE

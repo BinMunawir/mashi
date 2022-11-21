@@ -3,7 +3,9 @@ package usecases_test
 import (
 	"fmt"
 	"testing"
+	"time"
 
+	"github.com/BinMunawir/mashi/src/core/dtos"
 	"github.com/BinMunawir/mashi/src/core/usecases"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,7 +20,7 @@ func TestFinancingInvoice(t *testing.T) {
 
 	initStubs()
 
-	type input struct{ invoiceDTO map[string]interface{} }
+	type input struct{ invoice dtos.InvoiceDTO }
 	type output struct{}
 	var tests = []struct {
 		name        string
@@ -28,10 +30,13 @@ func TestFinancingInvoice(t *testing.T) {
 	}{
 		{
 			"FinancingInvoice",
-			input{map[string]interface{}{
-				"sss": map[string]interface{}{
-					"ddd": "dddd",
-				},
+			input{dtos.InvoiceDTO{
+				Id:        "id",
+				Title:     "title",
+				Platform:  "platform",
+				BeginDate: time.Now().UTC().Add(time.Duration(time.Now().Day())),
+				DueDate:   time.Now(),
+				ROI:       11.90,
 			}},
 			output{},
 			func(err error) {},
@@ -39,7 +44,7 @@ func TestFinancingInvoice(t *testing.T) {
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			err := usecases.FinancingInvoice(tc.in.invoiceDTO)
+			err := usecases.FinancingInvoice(tc.in.invoice)
 			tc.extraAssert(err)
 			assert.True(invoiceFinancedEventProduced)
 		})
@@ -52,8 +57,8 @@ func initStubs() {
 
 type invoiceRepositoryStub struct{}
 
-func (r invoiceRepositoryStub) SaveInvoice(invoiceDTO map[string]interface{}) {
-	fmt.Println("SaveInvoice triggered with\n", invoiceDTO)
+func (r invoiceRepositoryStub) SaveInvoice(invoice dtos.InvoiceDTO) {
+	fmt.Println("SaveInvoice triggered with\n", invoice)
 }
 func (r invoiceRepositoryStub) RetrieveInvoice(id string) (invoice map[string]interface{}, err error) {
 	return nil, nil

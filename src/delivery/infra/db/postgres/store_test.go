@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 	"testing"
+	"time"
 
+	"github.com/BinMunawir/mashi/src/core/dtos"
 	"github.com/BinMunawir/mashi/src/core/repositories"
 	"github.com/BinMunawir/mashi/src/delivery/infra/configs"
 	"github.com/BinMunawir/mashi/src/delivery/infra/db/postgres"
@@ -55,7 +57,7 @@ func TestNewPostgresStore(t *testing.T) {
 
 func TestSaveInvoice(t *testing.T) {
 	assert := assert.New(t)
-	type input struct{ data map[string]interface{} }
+	type input struct{ invoice dtos.InvoiceDTO }
 	type output struct{}
 	var tests = []struct {
 		name        string
@@ -65,9 +67,13 @@ func TestSaveInvoice(t *testing.T) {
 	}{
 		{
 			"empty",
-			input{map[string]interface{}{
-				"id":    "dkj-54123",
-				"title": "dummy test invoice",
+			input{dtos.InvoiceDTO{
+				Id:        "id",
+				Title:     "title",
+				Platform:  "platform",
+				BeginDate: time.Now().UTC().Add(time.Duration(time.Now().Day())),
+				DueDate:   time.Now(),
+				ROI:       11.90,
 			}},
 			output{},
 			func() {
@@ -78,21 +84,17 @@ func TestSaveInvoice(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			postgresStore, _ := postgres.NewPostgresStore(configs.DNS)
 			invoiceStore := postgresStore
-			invoiceStore.SaveInvoice(tc.in.data)
+			invoiceStore.SaveInvoice(tc.in.invoice)
 
 			tc.extraAssert()
 
 			pool, _ := pgxpool.New(context.Background(), configs.DNS)
-			var id string
-			var title string
-			err := pool.QueryRow(context.Background(), "select id, title from invoices;").Scan(&id, &title)
+			var invoice dtos.InvoiceDTO
+			err := pool.QueryRow(context.Background(), "select id, title, platform, begin_date, due_date, roi from invoices;").
+				Scan(&invoice.Id, &invoice.Title, &invoice.Platform, &invoice.BeginDate, &invoice.DueDate, &invoice.ROI)
 			assert.Nil(err)
 
-			res := map[string]interface{}{
-				"id":    id,
-				"title": title,
-			}
-			assert.Equal(res, tc.in.data)
+			assert.Equal(tc.in.invoice, invoice)
 
 		})
 	}
@@ -102,7 +104,7 @@ func TestRetrieveInvoice(t *testing.T) {
 	assert := assert.New(t)
 	type input struct{ id string }
 	type output struct {
-		invoice map[string]interface{}
+		invoice dtos.InvoiceDTO
 		err     error
 	}
 	var tests = []struct {
@@ -115,9 +117,13 @@ func TestRetrieveInvoice(t *testing.T) {
 			"empty",
 			input{"dkj-54123"},
 			output{
-				map[string]interface{}{
-					"id":    "dkj-54123",
-					"title": "dummy test invoice",
+				dtos.InvoiceDTO{
+					Id:        "id",
+					Title:     "title",
+					Platform:  "platform",
+					BeginDate: time.Now().UTC().Add(time.Duration(time.Now().Day())),
+					DueDate:   time.Now(),
+					ROI:       11.90,
 				},
 				nil,
 			},

@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/BinMunawir/mashi/src/core/dtos"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -30,10 +31,10 @@ func NewPostgresStore(dsn string) (PostgresStore, error) {
 	return PostgresStore{pool}, nil
 }
 
-func (s PostgresStore) SaveInvoice(data map[string]interface{}) {
-	id := data["id"].(string)
-	title := data["title"].(string)
-	query := "INSERT INTO invoices(id, title) values('" + id + "','" + title + "');"
+func (s PostgresStore) SaveInvoice(invoice dtos.InvoiceDTO) {
+	query := "INSERT INTO invoices(id, title, platform, begin_date, due_date, roi) values('" +
+		invoice.Id + "','" + invoice.Title + "','" + invoice.Platform + "','" + invoice.BeginDate.String() + "','" +
+		invoice.DueDate.String() + "','" + fmt.Sprint(invoice.ROI) + "');"
 	_, err := s.pool.Query(context.Background(), query)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
