@@ -1,11 +1,13 @@
-package usecases
+package usecases_test
 
 import (
 	"fmt"
 	"testing"
+
+	"github.com/BinMunawir/mashi/src/core/usecases"
 )
 
-func TestInvoiceFinancing(t *testing.T) {
+func TestFinancingInvoice(t *testing.T) {
 	initInvoiceRepositoryStub()
 
 	var tests = []struct {
@@ -18,14 +20,14 @@ func TestInvoiceFinancing(t *testing.T) {
 		}},
 	}
 	for _, test := range tests {
-		if got := InvoiceFinancing(test.input); got != nil {
+		if got := usecases.FinancingInvoice(test.input); got != nil {
 			t.Errorf("InvoiceFinancing(%v) = %v", test.input, got)
 		}
 	}
 }
 
 func initInvoiceRepositoryStub() {
-	Init(invoiceRepositoryStub{})
+	usecases.Init(invoiceRepositoryStub{})
 }
 
 type invoiceRepositoryStub struct{}
