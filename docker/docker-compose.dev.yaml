@@ -1,19 +1,20 @@
-version: '3.8'
+version: '3.9'
 
+name: mashi
 services:
   backend:
-    image: mashi
     build:
-      context: .
-      dockerfile: ./Dockerfile.dev
-    env_file: [ dev.env ]
+      context: ..
+      dockerfile: ./docker/Dockerfile
+      target: dev
+    env_file: [ ../dev.env ]
     ports: [ "18080:${PORT}" ]
     # restart: on-failure
     depends_on:
       - db
     volumes:
-    - .:/mashi
-    command: make compose_run
+    - ..:/mashi
+    command: make compose_backend_run
 
   db:
     image: postgres:15.0-bullseye
